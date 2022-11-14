@@ -15,6 +15,7 @@ typedef struct
     size_t position;      // current read position.
     size_t line;          // current line, used for debugging.
     size_t column;        // current column, used for debugging.
+    size_t binary_size;   // calculated total binary size while lexing.
 } fart_lexer;
 
 /**

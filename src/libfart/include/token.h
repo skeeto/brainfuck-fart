@@ -19,7 +19,7 @@ typedef enum
 typedef struct
 {
     fart_token_kind kind; // for storing collected token kind (type).
-    size_t repeat;        // reserved for plus and minus for optimization.
+    size_t value;         // reserved for extra value.
 } fart_token;
 
 #endif /* LIBFART_TOKEN */

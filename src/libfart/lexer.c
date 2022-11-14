@@ -14,6 +14,9 @@ fart_lexer *fart_lexer_init(char *source)
     lexer->line = 1;
     lexer->column = 1;
 
+    // offset (256 byte) + reset jump (3 byte) + overload jump (4 byte)
+    lexer->binary_size = 256 + 3 + 4;
+
     return lexer;
 }
 
@@ -51,14 +54,15 @@ char fart_lexer_current(fart_lexer *lexer)
 fart_token fart_lexer_next(fart_lexer *lexer)
 {
     fart_lexer_skip_whitespace(lexer);
-
     switch (fart_lexer_current(lexer))
     {
     case '\0':
         return (fart_token){.kind = FART_TOKEN_EOF};
     case '+':
+        lexer->binary_size += 5;
         return fart_lexer_collect_optimized(lexer, '+', FART_TOKEN_PLUS);
     case '-':
+        lexer->binary_size += 5;
         return fart_lexer_collect_optimized(lexer, '-', FART_TOKEN_MINUS);
     default:
         return fart_lexer_next(lexer);
@@ -79,11 +83,11 @@ static fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fa
         fart_lexer_advance(lexer);
         current = fart_lexer_current(lexer);
 
-        if (count == 2)
+        if (count == 254)
         {
             break;
         }
     }
 
-    return (fart_token){.kind = kind, .repeat = count};
+    return (fart_token){.kind = kind, .value = count};
 }
