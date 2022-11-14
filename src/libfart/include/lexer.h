@@ -59,6 +59,13 @@ fart_token fart_lexer_next(fart_lexer *lexer);
  * @param kind token kind to return.
  * @returns collected token.
  */
-static fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fart_token_kind kind);
+fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fart_token_kind kind);
+
+/**
+ * wrapper function for lexer.
+ * @param lexer lexer to process.
+ * @returns collected tokens.
+ */
+fart_token *fart_lexer_run(fart_lexer *lexer);
 
 #endif /* LIBFART_LEXER */

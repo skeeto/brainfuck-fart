@@ -14,8 +14,8 @@ fart_lexer *fart_lexer_init(char *source)
     lexer->line = 1;
     lexer->column = 1;
 
-    // offset (256 byte) + reset jump (3 byte) + overload jump (4 byte)
-    lexer->binary_size = 256 + 3 + 4;
+    // xor bx (2 byte) + offset (256 byte) + reset jump (3 byte) + overload jump (4 byte)
+    lexer->binary_size = 2 + 256 + 3 + 4;
 
     return lexer;
 }
@@ -69,7 +69,7 @@ fart_token fart_lexer_next(fart_lexer *lexer)
     }
 }
 
-static fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fart_token_kind kind)
+fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fart_token_kind kind)
 {
     fart_lexer_advance(lexer);
     char current = fart_lexer_current(lexer);
@@ -90,4 +90,29 @@ static fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fa
     }
 
     return (fart_token){.kind = kind, .value = count};
+}
+
+fart_token *fart_lexer_run(fart_lexer *lexer)
+{
+    size_t capacity = sizeof(fart_token), length = 0;
+    fart_token *tokens = malloc(capacity);
+
+    for (;;)
+    {
+        if ((capacity - (sizeof(fart_token) * length)) < sizeof(fart_token))
+        {
+            capacity *= 2;
+            tokens = realloc(tokens, capacity);
+        }
+
+        fart_token token = fart_lexer_next(lexer);
+
+        tokens[length++] = token;
+        if (token.kind == FART_TOKEN_EOF)
+        {
+            break;
+        }
+    }
+
+    return tokens;
 }
