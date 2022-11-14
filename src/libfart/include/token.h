@@ -11,6 +11,10 @@ typedef enum
     FART_TOKEN_EOF,
     FART_TOKEN_PLUS,
     FART_TOKEN_MINUS,
+    FART_TOKEN_NEXT,
+    FART_TOKEN_BACK,
+    FART_TOKEN_OUTPUT,
+    FART_TOKEN_INPUT
 } fart_token_kind;
 
 /**

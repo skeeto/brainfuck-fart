@@ -3,9 +3,6 @@
 
 #include "lexer.h"
 
-// this binary data contains cells, reset label and overload label as binary.
-extern unsigned char binary_data[519];
-
 /**
  * struct for assembler data.
  */

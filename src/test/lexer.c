@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    fart_lexer *lexer = fart_lexer_init("+++++---");
+    fart_lexer *lexer = fart_lexer_init("<+++.>.>.");
 
     for (;;)
     {

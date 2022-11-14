@@ -14,8 +14,8 @@ fart_lexer *fart_lexer_init(char *source)
     lexer->line = 1;
     lexer->column = 1;
 
-    // xor bx (2 byte) + offset (512 byte) + reset jump (3 byte) + overload jump (4 byte)
-    lexer->binary_size = 2 + 512 + 3 + 4;
+    // xor bx (2 byte) + offset (512 byte) + exit interrupt (4 byte)
+    lexer->binary_size = 2 + 512 + 4;
 
     return lexer;
 }
@@ -65,6 +65,21 @@ fart_token fart_lexer_next(fart_lexer *lexer)
         lexer->binary_size += 5;
         return fart_lexer_collect_optimized(lexer, '-', FART_TOKEN_MINUS);
     case '>':
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 9;
+        return (fart_token){.kind = FART_TOKEN_NEXT};
+    case '<':
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 9;
+        return (fart_token){.kind = FART_TOKEN_BACK};
+    case '.':
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 8;
+        return (fart_token){.kind = FART_TOKEN_OUTPUT};
+    case ',':
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 8;
+        return (fart_token){.kind = FART_TOKEN_INPUT};
 
     default:
         return fart_lexer_next(lexer);
