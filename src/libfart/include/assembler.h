@@ -1,7 +1,7 @@
 #ifndef LIBFART_ASSEMBLER
 #define LIBFART_ASSEMBLER
 
-#include "lexer.h"
+#include "../libfart/include/lexer.h"
 
 /**
  * struct for assembler data.

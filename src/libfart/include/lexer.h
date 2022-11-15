@@ -1,7 +1,7 @@
 #ifndef LIBFART_LEXER
 #define LIBFART_LEXER
 
-#include "token.h"
+#include "../libfart/include/token.h"
 
 #define IS_USEFUL(c) (c == '+' || c == '-' || c == '>' || c == '<' || c == '[' || c == ']' || c == '.' || c == ',')
 #define CALCULATE_CURRENT_POS(v) (v - 4100)

@@ -1,4 +1,4 @@
-#include "include/checker.h"
+#include "../libfart/include/checker.h"
 #include <stdio.h>
 
 int run_checker(fart_lexer *lexer, fart_token *tokens)

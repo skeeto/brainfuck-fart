@@ -1,7 +1,7 @@
 #ifndef LIBFART_CHECKER
 #define LIBFART_CHECKER
 
-#include "lexer.h"
+#include "../libfart/include/lexer.h"
 
 /**
  * matches brackets, checks bracket errors.

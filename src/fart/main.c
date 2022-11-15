@@ -1,4 +1,4 @@
-#include "../libfart/assembler.c"
+#include "../libfart/assemb~1.c"
 #include "file.c"
 
 int main(int argc, char **argv)

@@ -1,4 +1,4 @@
-#include "include/lexer.h"
+#include "../libfart/include/lexer.h"
 #include <stdio.h>
 #include <string.h>
 
