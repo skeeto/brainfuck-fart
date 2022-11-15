@@ -15,7 +15,7 @@ fart_assembler *fart_assembler_init(fart_lexer *lexer)
     int result = run_checker(lexer, tokens);
     if (result != -1)
     {
-        printf("bracket error at %lld.\n", result);
+        printf("bracket error at %d.\n", result);
         return NULL;
     }
 
@@ -80,11 +80,11 @@ void fart_assembler_run(fart_assembler *assembler)
         }
         case FART_TOKEN_NEXT: {
             //    inc bx
-            //    cmp bx, 512
+            //    cmp bx, 4096
             //    jne L
             //    xor bx, bx
             // L:
-            unsigned char opcodes[9] = {0x43, 0x81, 0xFB, 0x00, 0x02, 0x75, 0x02, 0x31, 0xDB};
+            unsigned char opcodes[9] = {0x43, 0x81, 0xFB, 0x00, 0x10, 0x75, 0x02, 0x31, 0xDB};
 
             assembler->binary[byte_index++] = opcodes[0];
             assembler->binary[byte_index++] = opcodes[1];
@@ -100,9 +100,9 @@ void fart_assembler_run(fart_assembler *assembler)
         case FART_TOKEN_BACK: {
             //    cmp bx, 0
             //    jne L
-            //    mov bx, 512
+            //    mov bx, 4096
             // L: dec bx
-            unsigned char opcodes[9] = {0x83, 0xFB, 0x00, 0x75, 0x03, 0xBB, 0x00, 0x02, 0x4B};
+            unsigned char opcodes[9] = {0x83, 0xFB, 0x00, 0x75, 0x03, 0xBB, 0x00, 0x10, 0x4B};
 
             assembler->binary[byte_index++] = opcodes[0];
             assembler->binary[byte_index++] = opcodes[1];
@@ -186,7 +186,7 @@ void fart_assembler_run(fart_assembler *assembler)
             size_t jump_start_position = (loop_positions.start - loop_positions.end) - 9;
             unsigned char jump_start_offset[2] = {jump_start_position & 0x00FF, jump_start_position >> 8};
 
-            // jmp position
+            // jmp near position
             unsigned char opcodes[3] = {0xE9, 0x00, 0x00};
 
             opcodes[1] = jump_start_offset[0];

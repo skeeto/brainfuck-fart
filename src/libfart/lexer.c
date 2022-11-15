@@ -7,14 +7,17 @@ fart_lexer *fart_lexer_init(char *source)
     fart_lexer *lexer = malloc(sizeof(fart_lexer));
 
     if (lexer == NULL)
+    {
+        puts("alloc failed for lexer.");
         return NULL;
+    }
 
     lexer->source = source;
     lexer->source_length = strlen(source);
     lexer->position = 0;
     lexer->jump_table_length = 0;
 
-    // xor bx (2 byte) + offset (512 byte) + exit interrupt (4 byte)
+    // xor bx (2 byte) + offset (4096 byte) + exit interrupt (4 byte)
     lexer->binary_size = 2 + 4096 + 4;
 
     return lexer;
@@ -107,7 +110,7 @@ fart_token fart_lexer_collect_optimized(fart_lexer *lexer, char value, fart_toke
         fart_lexer_advance(lexer);
         current = fart_lexer_current(lexer);
 
-        if (count == 254)
+        if (count == 250)
         {
             break;
         }
@@ -122,7 +125,10 @@ fart_token *fart_lexer_run(fart_lexer *lexer)
     fart_token *tokens = malloc(capacity);
 
     if (tokens == NULL)
+    {
+        puts("alloc failed for tokens.");
         return NULL;
+    }
 
     for (;;)
     {

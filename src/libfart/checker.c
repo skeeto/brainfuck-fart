@@ -36,5 +36,5 @@ int run_checker(fart_lexer *lexer, fart_token *tokens)
         index++;
     }
 
-    return 1;
+    return -1;
 }
