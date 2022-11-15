@@ -1,4 +1,5 @@
 #include "include/lexer.h"
+#include <stdio.h>
 #include <string.h>
 
 fart_lexer *fart_lexer_init(char *source)
@@ -11,31 +12,28 @@ fart_lexer *fart_lexer_init(char *source)
     lexer->source = source;
     lexer->source_length = strlen(source);
     lexer->position = 0;
-    lexer->line = 1;
-    lexer->column = 1;
+    lexer->jump_table_length = 0;
 
     // xor bx (2 byte) + offset (512 byte) + exit interrupt (4 byte)
-    lexer->binary_size = 2 + 512 + 4;
+    lexer->binary_size = 2 + 4096 + 4;
 
     return lexer;
 }
 
 void fart_lexer_advance(fart_lexer *lexer)
 {
-    lexer->column++;
     lexer->position++;
 }
 
-void fart_lexer_skip_whitespace(fart_lexer *lexer)
+void fart_lexer_skip_useless(fart_lexer *lexer)
 {
     char current = fart_lexer_current(lexer);
 
-    while (IS_WHITESPACE(current))
+    while (!IS_USEFUL(current))
     {
-        if (current == '\n')
+        if (current == '\0')
         {
-            lexer->line++;
-            lexer->column = 1;
+            break;
         }
 
         fart_lexer_advance(lexer);
@@ -53,7 +51,7 @@ char fart_lexer_current(fart_lexer *lexer)
 
 fart_token fart_lexer_next(fart_lexer *lexer)
 {
-    fart_lexer_skip_whitespace(lexer);
+    fart_lexer_skip_useless(lexer);
     switch (fart_lexer_current(lexer))
     {
     case '\0':
@@ -80,7 +78,16 @@ fart_token fart_lexer_next(fart_lexer *lexer)
         fart_lexer_advance(lexer);
         lexer->binary_size += 8;
         return (fart_token){.kind = FART_TOKEN_INPUT};
-
+    case '[': {
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 9;
+        return (fart_token){.kind = FART_TOKEN_LOOP_OPEN, .value = CALCULATE_CURRENT_POS(lexer->binary_size)};
+    }
+    case ']': {
+        fart_lexer_advance(lexer);
+        lexer->binary_size += 3;
+        return (fart_token){.kind = FART_TOKEN_LOOP_CLOSE, .value = CALCULATE_CURRENT_POS(lexer->binary_size)};
+    }
     default:
         return fart_lexer_next(lexer);
     }
@@ -114,6 +121,9 @@ fart_token *fart_lexer_run(fart_lexer *lexer)
     size_t capacity = sizeof(fart_token), length = 0;
     fart_token *tokens = malloc(capacity);
 
+    if (tokens == NULL)
+        return NULL;
+
     for (;;)
     {
         if ((capacity - (sizeof(fart_token) * length)) < sizeof(fart_token))
@@ -132,4 +142,9 @@ fart_token *fart_lexer_run(fart_lexer *lexer)
     }
 
     return tokens;
+}
+
+void fart_lexer_free(fart_lexer *lexer)
+{
+    free(lexer);
 }

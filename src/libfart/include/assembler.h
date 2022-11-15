@@ -9,8 +9,8 @@
 typedef struct
 {
     fart_token *tokens;    // for storing tokens.
+    fart_lexer *lexer;     // for storing lexer.
     unsigned char *binary; // generated binary.
-    size_t binary_size;    // calculated total binary size.
 } fart_assembler;
 
 /**
@@ -27,5 +27,13 @@ fart_assembler *fart_assembler_init(fart_lexer *lexer);
  * @param assembler assembler data to run.
  */
 void fart_assembler_run(fart_assembler *assembler);
+
+/**
+ * deallocte assembler from memory.
+ * it also dealloctes lexer, tokens and generated binary.
+ *
+ * @param assembler assembler to free.
+ */
+void fart_assembler_free(fart_assembler *assembler);
 
 #endif /* LIBFART_ASSEMBLER */

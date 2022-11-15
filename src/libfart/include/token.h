@@ -8,13 +8,15 @@
  */
 typedef enum
 {
-    FART_TOKEN_EOF,
-    FART_TOKEN_PLUS,
-    FART_TOKEN_MINUS,
-    FART_TOKEN_NEXT,
-    FART_TOKEN_BACK,
-    FART_TOKEN_OUTPUT,
-    FART_TOKEN_INPUT
+    FART_TOKEN_EOF,       // file end.
+    FART_TOKEN_PLUS,      // increase cell (+).
+    FART_TOKEN_MINUS,     // decrease cell (-).
+    FART_TOKEN_NEXT,      // moving to next cell (>).
+    FART_TOKEN_BACK,      // moving back (<).
+    FART_TOKEN_OUTPUT,    // print current cell as ascii (.).
+    FART_TOKEN_INPUT,     // get one byte input and put it in current cell (,).
+    FART_TOKEN_LOOP_OPEN, // create new loop ([).
+    FART_TOKEN_LOOP_CLOSE // close loop (]).
 } fart_token_kind;
 
 /**

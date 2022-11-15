@@ -1,9 +1,12 @@
+// lost and forgotton test place...
+
 #include "../libfart/lexer.c"
 #include <stdio.h>
 
 int main(void)
 {
-    fart_lexer *lexer = fart_lexer_init("<+++.>.>.");
+    fart_lexer *lexer =
+        fart_lexer_init("[]++++++++++[>>+>+>++++++[<<+<+++>>>-]<<<<-]A*$;?@![#>>+<<]>[>>]<<<<[>++<[-]]>.>.");
 
     for (;;)
     {
