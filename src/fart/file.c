@@ -3,16 +3,20 @@
 
 char *read_file(char *path)
 {
-    FILE *file = fopen(path, "r");
+    FILE *file;
+    size_t size;
+    char *content;
+
+    file = fopen(path, "r");
 
     if (file == NULL)
         return NULL;
 
     fseek(file, 0, SEEK_END);
-    size_t size = ftell(file);
+    size = ftell(file);
     rewind(file);
 
-    char *content = calloc(size + 1, sizeof(char));
+    content = calloc(size + 1, sizeof(char));
     if (content == NULL)
     {
         fclose(file);

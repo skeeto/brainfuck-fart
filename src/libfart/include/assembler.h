@@ -8,9 +8,9 @@
  */
 typedef struct
 {
-    fart_token *tokens;    // for storing tokens.
-    fart_lexer *lexer;     // for storing lexer.
-    unsigned char *binary; // generated binary.
+    fart_token *tokens;    /* for storing tokens. */
+    fart_lexer *lexer;     /* for storing lexer. */
+    unsigned char *binary; /* generated binary. */
 } fart_assembler;
 
 /**

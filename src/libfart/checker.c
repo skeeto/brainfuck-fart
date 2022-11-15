@@ -3,7 +3,7 @@
 
 int run_checker(fart_lexer *lexer, fart_token *tokens)
 {
-    size_t index = 0, temp_index = 0;
+    size_t index = 0, temp_index = 0, matched_token_index;
     fart_jump_table temp_jump_table[2048];
 
     for (;;)
@@ -23,7 +23,7 @@ int run_checker(fart_lexer *lexer, fart_token *tokens)
             if (temp_index == 0)
                 return token->value;
 
-            size_t matched_token_index = temp_jump_table[--temp_index].end;
+            matched_token_index = temp_jump_table[--temp_index].end;
 
             temp_jump_table[temp_index].end = token->value;
 

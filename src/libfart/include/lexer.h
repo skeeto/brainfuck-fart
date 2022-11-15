@@ -11,8 +11,8 @@
  */
 typedef struct
 {
-    size_t start; // jump start position.
-    size_t end;   // jump end position.
+    size_t start; /* jump start position. */
+    size_t end;   /* jump end position. */
 } fart_jump_table;
 
 /**
@@ -20,12 +20,12 @@ typedef struct
  */
 typedef struct
 {
-    fart_jump_table jump_table[2048]; // storing jumps.
-    char *source;                     // for storing given source.
-    size_t source_length;             // storing given source length.
-    size_t position;                  // current read position.
-    size_t binary_size;               // calculated total binary size while lexing.
-    size_t jump_table_length;         // jump table index for calculating.
+    fart_jump_table jump_table[2048]; /* storing jumps. */
+    char *source;                     /* for storing given source. */
+    size_t source_length;             /* storing given source length. */
+    size_t position;                  /* current read position. */
+    size_t binary_size;               /* calculated total binary size while lexing. */
+    size_t jump_table_length;         /* jump table index for calculating. */
 } fart_lexer;
 
 /**

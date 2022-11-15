@@ -3,14 +3,18 @@
 
 int main(int argc, char **argv)
 {
+    fart_lexer *lexer;
+    char *content, *output;
+    fart_assembler *assembler;
+
     if (argc != 3)
     {
         puts("usage: fart input.bf output.com");
         return -1;
     }
 
-    char *content = read_file(argv[1]);
-    char *output = argv[2];
+    content = read_file(argv[1]);
+    output = argv[2];
 
     if (content == NULL)
     {
@@ -18,11 +22,11 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    fart_lexer *lexer = fart_lexer_init(content);
+    lexer = fart_lexer_init(content);
     if (lexer == NULL)
         return -1;
 
-    fart_assembler *assembler = fart_assembler_init(lexer);
+    assembler = fart_assembler_init(lexer);
     if (assembler == NULL)
         return -1;
 
